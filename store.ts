@@ -14,24 +14,35 @@ interface RootState {
     }[];
 
     column: {
-        'a': ( string | number ) [],
-        'b': ( string | number ) [],
-        'c': ( string | number ) [],
-        'd': ( string | number ) [],
-        'e': ( string | number ) [],
-        'f': ( string | number ) [],
-        'g': ( string | number ) [],
+        'a': string[],
+        'b': string[],
+        'c': string[],
+        'd': string[],
+        'e': string[],
+        'f': string[],
+        'g': string[],
     }
-    // colA: string[];
-    // colB: string[];
-    // colC: string[];
-    // colD: string[];
-    // colE: string[];
-    // colF: string[];
-    // colG: string[];
 
     rTurn: boolean;
     turnNumber: number;
+    connect4: number;
+}
+
+const initialState = {
+    users: [{ id: 1, name: 'Sam' }, { id: 2, name: 'Alam' }],
+    boardState: [],
+    column: {
+        'a': [],
+        'b': [],
+        'c': [],
+        'd': [],
+        'e': [],
+        'f': [],
+        'g': [],
+    },
+    rTurn: true,
+    turnNumber: 1,
+    connect4: 0,
 }
 
 interface AddUserAction {
@@ -52,7 +63,7 @@ interface AddTokenAction {
     };
 }
 
-export const store = createStore((state: RootState, action: AddUserAction | AddTokenAction): RootState => {
+export const store = createStore((state: RootState = initialState, action: AddUserAction | AddTokenAction): RootState => {
     switch (action.type) {
         case 'ADD_USER':
             const newUsers = state.users.concat([action.user])
@@ -84,46 +95,69 @@ export const store = createStore((state: RootState, action: AddUserAction | AddT
                     state.column.g.push(action.token.type);
                     break;
             }
-            const newTurn = !state.rTurn
-            
-            state.turnNumber++
 
             const newBoardState = state.boardState.concat([action.token])
-            
+
+            const colOrder = 'abcdefg';
+            const tokenColorInPlay = newBoardState.filter(token => token.type === (state.rTurn ? 'R' : 'B'))
+            const checkConnect4 = () => {
+                for (let i = 0; i < tokenColorInPlay.length; i++) {
+                    for (let j = 0; j < tokenColorInPlay.length; j++) {
+                        for (let k = 0; k < tokenColorInPlay.length; k++) {
+                            for (let l = 0; l < tokenColorInPlay.length; l++) {
+                                if ((colOrder.indexOf(tokenColorInPlay[i].col) === colOrder.indexOf(tokenColorInPlay[j].col) + 1 &&
+                                    colOrder.indexOf(tokenColorInPlay[i].col) === colOrder.indexOf(tokenColorInPlay[k].col) + 2 &&
+                                    colOrder.indexOf(tokenColorInPlay[i].col) === colOrder.indexOf(tokenColorInPlay[l].col) + 3)
+                                    &&
+                                    (tokenColorInPlay[i].row === tokenColorInPlay[j].row &&
+                                        tokenColorInPlay[i].row === tokenColorInPlay[k].row &&
+                                        tokenColorInPlay[i].row === tokenColorInPlay[l].row)
+                                ) {
+                                    state.connect4++;
+                                } else if ((colOrder.indexOf(tokenColorInPlay[i].col) === colOrder.indexOf(tokenColorInPlay[j].col) &&
+                                    colOrder.indexOf(tokenColorInPlay[i].col) === colOrder.indexOf(tokenColorInPlay[k].col) &&
+                                    colOrder.indexOf(tokenColorInPlay[i].col) === colOrder.indexOf(tokenColorInPlay[l].col))
+                                    &&
+                                    (tokenColorInPlay[i].row === tokenColorInPlay[j].row + 1 &&
+                                        tokenColorInPlay[i].row === tokenColorInPlay[k].row + 2 &&
+                                        tokenColorInPlay[i].row === tokenColorInPlay[l].row + 3)
+                                ) {
+                                    state.connect4++;
+                                } else if ((colOrder.indexOf(tokenColorInPlay[i].col) === colOrder.indexOf(tokenColorInPlay[j].col) + 1 &&
+                                    colOrder.indexOf(tokenColorInPlay[i].col) === colOrder.indexOf(tokenColorInPlay[k].col) + 2 &&
+                                    colOrder.indexOf(tokenColorInPlay[i].col) === colOrder.indexOf(tokenColorInPlay[l].col) + 3)
+                                    &&
+                                    (tokenColorInPlay[i].row === tokenColorInPlay[j].row + 1 &&
+                                        tokenColorInPlay[i].row === tokenColorInPlay[k].row + 2 &&
+                                        tokenColorInPlay[i].row === tokenColorInPlay[l].row + 3)
+                                ) {
+                                    state.connect4++;
+                                } else if ((colOrder.indexOf(tokenColorInPlay[i].col) === colOrder.indexOf(tokenColorInPlay[j].col) - 1 &&
+                                    colOrder.indexOf(tokenColorInPlay[i].col) === colOrder.indexOf(tokenColorInPlay[k].col) - 2 &&
+                                    colOrder.indexOf(tokenColorInPlay[i].col) === colOrder.indexOf(tokenColorInPlay[l].col) - 3)
+                                    &&
+                                    (tokenColorInPlay[i].row === tokenColorInPlay[j].row + 1 &&
+                                        tokenColorInPlay[i].row === tokenColorInPlay[k].row + 2 &&
+                                        tokenColorInPlay[i].row === tokenColorInPlay[l].row + 3)
+                                ) {
+                                    state.connect4++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            checkConnect4();
+
+            state.turnNumber++
+
             return {
                 ...state,
                 boardState: newBoardState,
-                // colA: state.colA,
-                // colB: state.colB,
-                // colC: state.colC,
-                // colD: state.colD,
-                // colE: state.colE,
-                // colF: state.colF,
-                // colG: state.colG,
-                rTurn: newTurn,
+                rTurn: !state.rTurn,
                 turnNumber: state.turnNumber,
+                connect4: state.connect4,
             }
     }
-    return {
-        users: [{ id: 1, name: 'Sam' }, { id: 2, name: 'Alam' }],
-        boardState: [],
-        column: {
-            'a': [],
-            'b': [],
-            'c': [],
-            'd': [],
-            'e': [],
-            'f': [],
-            'g': [],
-        },
-        // colA: [],
-        // colB: [],
-        // colC: [],
-        // colD: [],
-        // colE: [],
-        // colF: [],
-        // colG: [],
-        rTurn: true,
-        turnNumber: 1,
-    }
+    return initialState;
 })

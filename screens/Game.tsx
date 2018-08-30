@@ -25,7 +25,35 @@ import Svg, {
     Stop
 } from 'react-native-svg';
 
-interface Props {
+interface RootState {
+    users: {
+        id: number;
+        name: string;
+    }[],
+
+    boardState: {
+        id: number,
+        type: string,
+        col: string,
+        row: number,
+    }[];
+
+    column: {
+        'a': string[],
+        'b': string[],
+        'c': string[],
+        'd': string[],
+        'e': string[],
+        'f': string[],
+        'g': string[],
+    }
+
+    rTurn: boolean;
+    turnNumber: number;
+    connect4: number;
+}
+
+interface IGameProps {
     navigator: Navigator;
     addUser: () => void;
     users: {
@@ -45,31 +73,63 @@ interface Props {
         row: number,
     }[];
     column: {
-        'a': ( string | number ) [],
-        'b': ( string | number ) [],
-        'c': ( string | number ) [],
-        'd': ( string | number ) [],
-        'e': ( string | number ) [],
-        'f': ( string | number ) [],
-        'g': ( string | number ) [],
+        'a': string[],
+        'b': string[],
+        'c': string[],
+        'd': string[],
+        'e': string[],
+        'f': string[],
+        'g': string[],
+        [key: string]: string[];
     }
-    // colA: [],
-    // colB: [],
-    // colC: [],
-    // colD: [],
-    // colE: [],
-    // colF: [],
-    // colG: [],
     rTurn: boolean;
     turnNumber: number;
+    connect4: number;
 }
 
-class PureGame extends React.Component<Props> {
+// enum Columns {
+//     a,
+//     b,
+//     c,
+//     d,
+//     e,
+//     f,
+//     g,
+// }
+
+class PureGame extends React.Component<IGameProps> {
+    socket: SocketIOClient.Socket | null;
+    constructor(props: IGameProps) {
+        super(props)
+        this.socket = null;
+    }
+
+    componentWillMount() {
+        this.socket = io('http://localhost:3030');
+        // console.log('connecting to socketio')
+        this.socket.on('add-token', (col: string) => {
+            // const col = c
+            // console.log(col);
+            // console.log(this.props.column);
+            const token =
+                this.props.rTurn ?
+                    { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
+                    { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
+            this.props.addToken(token);
+        })
+    }
+
+    componentWillUnmount() {
+        if(this.socket) {
+            this.socket.disconnect();
+        }
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.board}>
-                    {['a', 'b', 'c', 'd', 'e', 'f', 'g'].map(c => {
+                    {['a', 'b', 'c', 'd', 'e', 'f', 'g'].map((c: string) => {
                         return ( // COLUMNS
                             <TouchableWithoutFeedback key={c} onPress={() => {
                                 const col = c
@@ -77,7 +137,7 @@ class PureGame extends React.Component<Props> {
                                     this.props.rTurn ?
                                         { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
                                         { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
-                                if (this.props.column[col].length >= 6) {
+                                if (this.props.column[col].length >= 6 || this.props.connect4 > 0) {
                                     return;
                                 } else {
                                     this.props.addToken(token) // TESTING BOTH COLORS
@@ -209,21 +269,38 @@ class PureGame extends React.Component<Props> {
                     </Text>
                     </AwesomeButton>
                     <AwesomeButton raiseLevel={5} width={50} onPress={() => {
-                        const socket = io('http://localhost:3030');
-                        socket.emit('drop-token', 'H');
+                        const colOrder = 'abcdefg'
+                        const col = colOrder[Math.floor(Math.random() * 7)]
+                        const token =
+                            this.props.rTurn ?
+                                { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
+                                { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
+                        if (this.props.column[col].length >= 6 || this.props.connect4 > 0) {
+                            return;
+                        } else {
+                            this.props.addToken(token)
+                        }
+                    }}>
+                        <Text>
+                            R
+                    </Text>
+                    </AwesomeButton>
+                    <AwesomeButton raiseLevel={5} width={50} onPress={() => {
+                        this.socket.emit('add-token', 'g');
+
                     }}>
                         <Text>
                             H
                     </Text>
                     </AwesomeButton>
                 </View>
-                <Text>{JSON.stringify(this.props.rTurn)}{JSON.stringify(this.props.boardState.length)}</Text>
+                <Text>rTurn: {JSON.stringify(this.props.rTurn)}, boardState.length: {JSON.stringify(this.props.boardState.length)}, connect4:{this.props.connect4}</Text>
             </View>
         );
     }
 }
 
-const Game = connect((state) => {
+const Game = connect((state: RootState) => {
     return {
         users: state.users,
         boardState: state.boardState,
@@ -237,14 +314,8 @@ const Game = connect((state) => {
             'e': state.column.e,
             'f': state.column.f,
             'g': state.column.g,
-        }
-        // colA: state.colA,
-        // colB: state.colB,
-        // colC: state.colC,
-        // colD: state.colD,
-        // colE: state.colE,
-        // colF: state.colF,
-        // colG: state.colG,
+        },
+        connect4: state.connect4,
     };
 }, (dispatch) => {
     return {
@@ -275,7 +346,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'stretch',
         // backgroundColor: '#F5FCFF',
-        backgroundColor: 'blue',
+        // backgroundColor: 'blue',
     },
     letters: {
         flex: 1,

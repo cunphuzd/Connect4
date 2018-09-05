@@ -10,6 +10,7 @@ import ActiveGames from './ActiveGames';
 import ChallengePlayers from './ChallengePlayers';
 import Scoreboard from './Scoreboard';
 import Game from './Game';
+import SignUp from './SignUp';
 
 import { store } from '../store';
 import { Provider } from 'react-redux'
@@ -25,4 +26,6 @@ export function registerScreens() {
   Navigation.registerComponent('ChallengePlayersScreen', () => ChallengePlayers, store, Provider);
   Navigation.registerComponent('GameScreen', () => Game, store, Provider);
   Navigation.registerComponent('ScoreboardScreen', () => Scoreboard, store, Provider);
+
+  Navigation.registerComponent('SignUpScreen', () => SignUp, store, Provider);
 }

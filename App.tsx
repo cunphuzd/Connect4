@@ -18,6 +18,34 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
+interface RootState {
+  users: {
+      id: number;
+      name: string;
+  }[];
+
+  boardState: {
+      id: number,
+      type: string,
+      col: string,
+      row: number,
+  }[];
+
+  column: {
+      'a': string[],
+      'b': string[],
+      'c': string[],
+      'd': string[],
+      'e': string[],
+      'f': string[],
+      'g': string[],
+  }
+
+  rTurn: boolean;
+  turnNumber: number;
+  connect4: number;
+}
+
 interface Props {
   addUser: () => void;
   navigator: Navigator;
@@ -68,7 +96,7 @@ class PureApp extends React.Component<Props> {
   }
 }
 
-const App = connect((state) => {
+const App = connect((state: RootState) => {
   return {
     users: state.users
   };

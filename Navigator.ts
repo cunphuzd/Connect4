@@ -19,7 +19,7 @@ Navigation.startTabBasedApp({
         },
         {
             label: 'Two',
-            screen: 'SettingsScreen',
+            screen: 'SignUpScreen',
             icon: require('./img/avengers.png'),
             //   selectedIcon: require('./img/avengers-red.png'), // iOS only
             title: 'Screen Two'
@@ -39,11 +39,11 @@ Navigation.startTabBasedApp({
             title: 'Screen Four'
         },
     ],
-    drawer: {
-        left: {
-            // screen: 'MenuDrawerScreen'
-            screen: 'MenuScreen',
-            fixedWidth: 800,
-        }
-    }
+    // drawer: {
+    //     left: {
+    //         // screen: 'MenuDrawerScreen'
+    //         screen: 'MenuScreen',
+    //         fixedWidth: 800,
+    //     }
+    // }
 });

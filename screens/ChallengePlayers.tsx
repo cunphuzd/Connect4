@@ -1,22 +1,59 @@
 import * as React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Navigator } from 'react-native-navigation';
 import AwesomeButton from 'react-native-really-awesome-button';
 
-interface ChallengePlayersProps {
+interface IChallengePlayersProps {
     navigator: Navigator;
 }
 
-export default class ChallengePlayers extends React.Component<ChallengePlayersProps> {
+interface IChallengePlayersState {
+    players: { handle: string }[];
+}
+
+export default class ChallengePlayers extends React.Component<IChallengePlayersProps, IChallengePlayersState> {
+    constructor(props: IChallengePlayersProps) {
+        super(props)
+        this.state = {
+            players: []
+        }
+    }
+
+    async componentWillMount() {
+        const userId = 4;
+        const data: any = await fetch(`http://localhost:3030/api/users/${userId}`, {
+            method: 'Get',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+        const players = await data.json();
+        this.setState({
+            players: players,
+        })
+    }
+
     public render() {
         return (
             <View style={styles.container}>
                 <TouchableOpacity onPress={() => this.props.navigator.switchToTab({
                     tabIndex: 2,
                 })}>
-                    <Text>Active Games</Text>
+                    <Text>Players</Text>
+
                 </TouchableOpacity>
-                <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
+                {this.state.players.map((player) => {
+                    return (
+                        <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
+                            screen: 'GameScreen',
+                            title: 'Game',
+                        })}>
+                            <Text style={{ color: 'white', fontSize: 24 }}>{player.handle}</Text>
+                        </AwesomeButton>
+                    )
+                })}
+                {/* <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                     screen: 'MenuScreen',
                     title: 'Menu',
                 })}>
@@ -45,7 +82,7 @@ export default class ChallengePlayers extends React.Component<ChallengePlayersPr
                     title: 'Menu',
                 })}>
                 <Text style={{color: 'white', fontSize: 24}}>HEADPHONES JON</Text>
-                </AwesomeButton>
+                </AwesomeButton> */}
             </View>
         )
     }

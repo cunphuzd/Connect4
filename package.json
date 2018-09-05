@@ -17,7 +17,8 @@
     "react-native-svg": "^6.5.2",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
-    "socket.io-client": "^2.1.1"
+    "socket.io-client": "^2.1.1",
+    "tcomb-form-native": "^0.6.16"
   },
   "devDependencies": {
     "@types/react": "^16.4.12",

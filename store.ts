@@ -6,6 +6,10 @@ interface RootState {
         name: string;
     }[],
 
+    user: {
+        handle: string;
+    },
+
     boardState: {
         id: number,
         type: string,
@@ -30,6 +34,7 @@ interface RootState {
 
 const initialState = {
     users: [{ id: 1, name: 'Sam' }, { id: 2, name: 'Alam' }],
+    user: { handle: "mike" },
     boardState: [],
     column: {
         'a': [],
@@ -53,6 +58,13 @@ interface AddUserAction {
     }
 }
 
+interface SignUpAction {
+    type: 'SIGN_UP';
+    user: {
+        handle: string;
+    }
+}
+
 interface AddTokenAction {
     type: 'ADD_TOKEN';
     token: {
@@ -63,13 +75,18 @@ interface AddTokenAction {
     };
 }
 
-export const store = createStore((state: RootState = initialState, action: AddUserAction | AddTokenAction): RootState => {
+export const store = createStore((state: RootState = initialState, action: AddUserAction | AddTokenAction | SignUpAction): RootState => {
     switch (action.type) {
         case 'ADD_USER':
             const newUsers = state.users.concat([action.user])
             return {
                 ...state,
                 users: newUsers
+            }
+        case 'SIGN_UP':
+            return {
+                ...state,
+                user: action.user
             }
         case 'ADD_TOKEN':
             switch (action.token.col) {

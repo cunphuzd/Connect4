@@ -29,7 +29,7 @@ interface RootState {
     users: {
         id: number;
         name: string;
-    }[],
+    }[];
 
     boardState: {
         id: number,
@@ -98,7 +98,12 @@ interface IGameProps {
 // }
 
 class PureGame extends React.Component<IGameProps> {
+    static navigatorStyle = {
+        tabBarHidden: true,
+    };
+
     socket: SocketIOClient.Socket | null;
+
     constructor(props: IGameProps) {
         super(props)
         this.socket = null;
@@ -120,10 +125,16 @@ class PureGame extends React.Component<IGameProps> {
     }
 
     componentWillUnmount() {
-        if(this.socket) {
+        if (this.socket) {
             this.socket.disconnect();
         }
     }
+
+    // declareWinner() {
+    //     if (this.props.connect4 > 1) {
+    //         alert('Red Wins!');
+    //     }
+    // }
 
     render() {
         return (
@@ -132,15 +143,16 @@ class PureGame extends React.Component<IGameProps> {
                     {['a', 'b', 'c', 'd', 'e', 'f', 'g'].map((c: string) => {
                         return ( // COLUMNS
                             <TouchableWithoutFeedback key={c} onPress={() => {
-                                const col = c
-                                const token =
-                                    this.props.rTurn ?
-                                        { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
-                                        { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
-                                if (this.props.column[col].length >= 6 || this.props.connect4 > 0) {
+                                // const col = c
+                                // const token =
+                                //     this.props.rTurn ?
+                                //         { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
+                                //         { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
+                                if (this.props.column[c].length >= 6 || this.props.connect4 > 0) {
                                     return;
                                 } else {
-                                    this.props.addToken(token) // TESTING BOTH COLORS
+                                    this.socket.emit('add-token', c);
+                                    // this.props.addToken(token) // TESTING BOTH COLORS
                                 }
                                 // UNCOMMENT BELOW IF YOU WANT TO ACTIONS TO BE DEPENDENT ON TURNS
                                 // if (this.props.rTurn) {
@@ -185,84 +197,55 @@ class PureGame extends React.Component<IGameProps> {
                 </View>
                 <View style={styles.buttons}>
                     <AwesomeButton raiseLevel={5} width={50} onPress={() => {
-                        const col = 'a'
-                        const token =
-                            this.props.rTurn ?
-                                { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
-                                { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
-                        this.props.addToken(token);
+                        // const col = 'a'
+                        // const token =
+                        //     this.props.rTurn ?
+                        //         { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
+                        //         { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
+                        // this.props.addToken(token);
+                        this.socket.emit('add-token', 'a');
                     }}>
                         <Text>
                             A
                     </Text>
                     </AwesomeButton>
                     <AwesomeButton raiseLevel={5} width={50} onPress={() => {
-                        const col = 'b'
-                        const token =
-                            this.props.rTurn ?
-                                { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
-                                { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
-                        this.props.addToken(token);
+                        this.socket.emit('add-token', 'b');
                     }}>
                         <Text>
                             B
                     </Text>
                     </AwesomeButton>
                     <AwesomeButton raiseLevel={5} width={50} onPress={() => {
-                        const col = 'c'
-                        const token =
-                            this.props.rTurn ?
-                                { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
-                                { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
-                        this.props.addToken(token);
+                        this.socket.emit('add-token', 'c');
                     }}>
                         <Text>
                             C
                     </Text>
                     </AwesomeButton>
                     <AwesomeButton raiseLevel={5} width={50} onPress={() => {
-                        const col = 'd'
-                        const token =
-                            this.props.rTurn ?
-                                { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
-                                { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
-                        this.props.addToken(token);
+                        this.socket.emit('add-token', 'd');
                     }}>
                         <Text>
                             D
                     </Text>
                     </AwesomeButton>
                     <AwesomeButton raiseLevel={5} width={50} onPress={() => {
-                        const col = 'e'
-                        const token =
-                            this.props.rTurn ?
-                                { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
-                                { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
-                        this.props.addToken(token);
+                        this.socket.emit('add-token', 'e');
                     }}>
                         <Text>
                             E
                     </Text>
                     </AwesomeButton>
                     <AwesomeButton raiseLevel={5} width={50} onPress={() => {
-                        const col = 'f'
-                        const token =
-                            this.props.rTurn ?
-                                { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
-                                { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
-                        this.props.addToken(token);
+                        this.socket.emit('add-token', 'f');
                     }}>
                         <Text>
                             F
                     </Text>
                     </AwesomeButton>
                     <AwesomeButton raiseLevel={5} width={50} onPress={() => {
-                        const col = 'g'
-                        const token =
-                            this.props.rTurn ?
-                                { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
-                                { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
-                        this.props.addToken(token);
+                        this.socket.emit('add-token', 'g');
                     }}>
                         <Text>
                             G

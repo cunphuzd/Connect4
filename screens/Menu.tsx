@@ -3,11 +3,11 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { Navigator } from 'react-native-navigation';
 import AwesomeButton from 'react-native-really-awesome-button';
 
-interface MenuProps {
+interface IMenuProps {
     navigator: Navigator;
 }
 
-export default class Menu extends React.Component<MenuProps> {
+export default class Menu extends React.Component<IMenuProps> {
     render() {
         return (
             <ScrollView contentContainerStyle={styles.contentContainer}>

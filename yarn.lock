@@ -576,11 +576,11 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-native-navigation@^1.1.0":
-  version "1.1.12"
-  resolved "https://registry.yarnpkg.com/@types/react-native-navigation/-/react-native-navigation-1.1.12.tgz#1f43bdf88d39bce2a3c0fdded0befda5083df6ff"
+"@types/react-native-navigation@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-native-navigation/-/react-native-navigation-2.0.0.tgz#9a2353be6b31a864336e8fef4e3be305c3ee1422"
   dependencies:
-    "@types/react" "*"
+    react-native-navigation "*"
 
 "@types/react-native@^0.56.15":
   version "0.56.15"
@@ -4372,6 +4372,12 @@ react-is@^16.4.1:
   version "16.4.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.4.2.tgz#84891b56c2b6d9efdee577cc83501dfc5ecead88"
 
+react-native-navigation@*:
+  version "1.1.485"
+  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.485.tgz#99b469ded59589888ddb76f0b2ebf8258b24b9e7"
+  dependencies:
+    lodash "4.x.x"
+
 react-native-navigation@^1.1.483:
   version "1.1.483"
   resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.483.tgz#e97c8a80bb7c784383e99c94a4f8df0622c4627d"
@@ -5189,6 +5195,22 @@ tar@^4:
     mkdirp "^0.5.0"
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
+
+tcomb-form-native@^0.6.16:
+  version "0.6.16"
+  resolved "https://registry.yarnpkg.com/tcomb-form-native/-/tcomb-form-native-0.6.16.tgz#291c284ff8ad0feee4b746bcc1a1094e0f39e2c1"
+  dependencies:
+    tcomb-validation "^3.0.0"
+
+tcomb-validation@^3.0.0:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/tcomb-validation/-/tcomb-validation-3.4.1.tgz#a7696ec176ce56a081d9e019f8b732a5a8894b65"
+  dependencies:
+    tcomb "^3.0.0"
+
+tcomb@^3.0.0:
+  version "3.2.27"
+  resolved "https://registry.yarnpkg.com/tcomb/-/tcomb-3.2.27.tgz#f4928bfc536b959d21a47e5f5f1ca2b2e4b7188a"
 
 temp@0.8.3:
   version "0.8.3"

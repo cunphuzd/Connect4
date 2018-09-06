@@ -70,13 +70,13 @@ export default class SignUp extends React.Component<ISignUpProps> {
     //     super(props);
     // }
 
-    onPress() {
-        // call getValue() to get the values of the form
-        const value = this.refs.form.getValue();
-        if (value) { // if validation fails, value will be null
-            console.log(value); // value here is an instance of Person
-        }
-    }
+    // onPress() {
+    //     // call getValue() to get the values of the form
+    //     const value = this.refs.form.getValue();
+    //     if (value) { // if validation fails, value will be null
+    //         console.log(value); // value here is an instance of Person
+    //     }
+    // }
 
     render() {
         return (

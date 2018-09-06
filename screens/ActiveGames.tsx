@@ -10,6 +10,9 @@ interface ActiveGamesProps {
 }
 
 export default class ActiveGames extends React.Component<ActiveGamesProps> {
+    static navigatorStyle = {
+        tabBarHidden: true,
+    };
     public render() {
         return (
             <View style={styles.container}>
@@ -22,25 +25,25 @@ export default class ActiveGames extends React.Component<ActiveGamesProps> {
                     screen: 'MenuScreen',
                     title: 'Menu',
                 })}>
-                <Text style={{color: 'white', fontSize: 24}}>ALEX vs GORDON</Text>
+                <Text style={{color: 'white', fontSize: 24, fontWeight:"700" }}>ALEX vs GORDON</Text>
                 </AwesomeButton>
                 <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                     screen: 'MenuScreen',
                     title: 'Menu',
                 })}>
-                <Text style={{color: 'white', fontSize: 24}}>MICHAEL vs GALILEO</Text>
+                <Text style={{color: 'white', fontSize: 24, fontWeight:"700" }}>MICHAEL vs GALILEO</Text>
                 </AwesomeButton>
                 <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                     screen: 'MenuScreen',
                     title: 'Menu',
                 })}>
-                <Text style={{color: 'white', fontSize: 24}}>LEVINE vs AI</Text>
+                <Text style={{color: 'white', fontSize: 24, fontWeight:"700" }}>LEVINE vs AI</Text>
                 </AwesomeButton>
                 <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                     screen: 'MenuScreen',
                     title: 'Menu',
                 })}>
-                <Text style={{color: 'white', fontSize: 24}}>DONNA vs AI ZERO</Text>
+                <Text style={{color: 'white', fontSize: 24, fontWeight:"700" }}>DONNA vs AI ZERO</Text>
                 </AwesomeButton>
             </View>
         )

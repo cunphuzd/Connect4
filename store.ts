@@ -1,4 +1,5 @@
 import { createStore } from 'redux';
+import io from 'socket.io-client';
 
 interface RootState {
     users: {
@@ -74,6 +75,15 @@ interface AddTokenAction {
         row: number,
     };
 }
+
+const socket = io('http://localhost:3030');
+// socket.on('add-token', (col: string) => {
+//     const token =
+//         this.props.rTurn ?
+//             { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
+//             { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
+//     this.props.addToken(token);
+// })
 
 export const store = createStore((state: RootState = initialState, action: AddUserAction | AddTokenAction | SignUpAction): RootState => {
     switch (action.type) {
@@ -164,7 +174,18 @@ export const store = createStore((state: RootState = initialState, action: AddUs
                     }
                 }
             }
+
             checkConnect4();
+
+            const delclareWinner = () => {
+                const turn = state.rTurn === false ? 'Red' : 'Blue'
+                if (state.connect4 > 0) {
+                    socket.emit('winner', turn)
+                    !state.rTurn
+                }
+            }
+
+            delclareWinner();
 
             state.turnNumber++
 

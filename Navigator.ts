@@ -13,28 +13,28 @@ Navigation.startTabBasedApp({
         {
             label: 'One',
             screen: 'AppScreen', // this is a registered name for a screen
-            icon: require('./img/avengers.png'),
+            icon: require('./img/blank-icon.png'),
             //   selectedIcon: require('./img/avengers-red.png'), // iOS only
             title: 'Screen One'
         },
         {
             label: 'Two',
             screen: 'SignUpScreen',
-            icon: require('./img/avengers.png'),
+            icon: require('./img/blank-icon.png'),
             //   selectedIcon: require('./img/avengers-red.png'), // iOS only
             title: 'Screen Two'
         },
         {
             label: 'Three',
             screen: 'ActiveGamesScreen', // this is a registered name for a screen
-            icon: require('./img/avengers.png'),
+            icon: require('./img/blank-icon.png'),
             //   selectedIcon: require('./img/avengers-red.png'), // iOS only
             title: 'Screen Three'
         },
         {
             label: 'Four',
             screen: 'ChallengePlayersScreen',
-            icon: require('./img/avengers.png'),
+            icon: require('./img/blank-icon.png'),
             //   selectedIcon: require('./img/avengers-red.png'), // iOS only
             title: 'Screen Four'
         },

@@ -10,6 +10,7 @@ import * as React from 'react';
 import { FlatList, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Navigator } from 'react-native-navigation';
 import { connect } from 'react-redux';
+import AwesomeButton from 'react-native-really-awesome-button';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -20,25 +21,25 @@ const instructions = Platform.select({
 
 interface RootState {
   users: {
-      id: number;
-      name: string;
+    id: number;
+    name: string;
   }[];
 
   boardState: {
-      id: number,
-      type: string,
-      col: string,
-      row: number,
+    id: number,
+    type: string,
+    col: string,
+    row: number,
   }[];
 
   column: {
-      'a': string[],
-      'b': string[],
-      'c': string[],
-      'd': string[],
-      'e': string[],
-      'f': string[],
-      'g': string[],
+    'a': string[],
+    'b': string[],
+    'c': string[],
+    'd': string[],
+    'e': string[],
+    'f': string[],
+    'g': string[],
   }
 
   rTurn: boolean;
@@ -56,14 +57,18 @@ interface Props {
 }
 
 class PureApp extends React.Component<Props> {
+  static navigatorStyle = {
+    tabBarHidden: true,
+  };
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => this.props.addUser()}>
+        <Text style={styles.title}>Connect4</Text>
+        {/* <TouchableOpacity onPress={() => this.props.addUser()}>
           <Text style={styles.welcome}>
             ADD
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         {/* <FlatList
           data={this.props.users} // BACKEND
           renderItem={(row) => (
@@ -83,14 +88,20 @@ class PureApp extends React.Component<Props> {
             </TouchableOpacity>
           )}>
         </FlatList> */}
-        <TouchableOpacity onPress={() => this.props.navigator.push({
+        {/* backgroundColor="#4B4BFD" */}
+        <AwesomeButton raiseLevel={5} width={300}  onPress={() => this.props.navigator.resetTo({
           screen: 'MenuScreen',
-          title: 'Menu'
+          title: 'Menu',
         })}>
-          <Text style={styles.welcome}>MENU</Text>
-        </TouchableOpacity>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+          <Text style={{ color: 'white', fontSize: 24, fontWeight: "700" }}>Log In</Text>
+        </AwesomeButton>
+        {/* backgroundColor="#FD4B4B" */}
+        <AwesomeButton raiseLevel={5} width={300}  onPress={() => this.props.navigator.resetTo({
+          screen: 'MenuScreen',
+          title: 'Menu',
+        })}>
+          <Text style={{ color: 'white', fontSize: 24, fontWeight: "700" }}>Sign Up</Text>
+        </AwesomeButton>
       </View>
     );
   }
@@ -115,6 +126,11 @@ const App = connect((state: RootState) => {
 export default App;
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 60,
+    fontWeight: '900',
+    marginBottom: 100,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

@@ -12,6 +12,10 @@ interface IChallengePlayersState {
 }
 
 export default class ChallengePlayers extends React.Component<IChallengePlayersProps, IChallengePlayersState> {
+    static navigatorStyle = {
+        tabBarHidden: true,
+    };
+
     constructor(props: IChallengePlayersProps) {
         super(props)
         this.state = {
@@ -37,19 +41,14 @@ export default class ChallengePlayers extends React.Component<IChallengePlayersP
     public render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity onPress={() => this.props.navigator.switchToTab({
-                    tabIndex: 2,
-                })}>
-                    <Text>Players</Text>
-
-                </TouchableOpacity>
+                <Text>Players</Text>
                 {this.state.players.map((player) => {
                     return (
-                        <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
+                        <AwesomeButton key={player.handle} raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                             screen: 'GameScreen',
                             title: 'Game',
                         })}>
-                            <Text style={{ color: 'white', fontSize: 24 }}>{player.handle}</Text>
+                            <Text style={{ color: 'white', fontSize: 24, fontWeight: "700" }}>{player.handle}</Text>
                         </AwesomeButton>
                     )
                 })}

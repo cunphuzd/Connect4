@@ -130,15 +130,45 @@ class PureGame extends React.Component<IGameProps> {
         }
     }
 
-    // declareWinner() {
-    //     if (this.props.connect4 > 1) {
-    //         alert('Red Wins!');
-    //     }
-    // }
-
     render() {
         return (
             <View style={styles.container}>
+                <View style={styles.label}>
+                    <View style={styles.labelItem1}>
+                        <Svg
+                            height="32"
+                            width="32">
+                            <Circle
+                                cx="16"
+                                cy="16"
+                                r="15"
+                                // IS THERE A BETTER WAY TO WRITE THE CODE BELOW?
+                                stroke='red'
+                                strokeWidth="1.5"
+                                fill='red'
+                                fillOpacity=".7"
+                            />
+                        </Svg>
+                        <Text style={this.props.rTurn ? styles.labelTextBold : styles.labelText}>Player 1</Text>
+                    </View>
+                    <View style={styles.labelItem2}>
+                        <Svg
+                            height="32"
+                            width="32">
+                            <Circle
+                                cx="16"
+                                cy="16"
+                                r="15"
+                                // IS THERE A BETTER WAY TO WRITE THE CODE BELOW?
+                                stroke='blue'
+                                strokeWidth="1.5"
+                                fill='blue'
+                                fillOpacity=".7"
+                            />
+                        </Svg>
+                        <Text style={!this.props.rTurn ? styles.labelTextBold : styles.labelText}>Player 2</Text>
+                    </View>
+                </View>
                 <View style={styles.board}>
                     {['a', 'b', 'c', 'd', 'e', 'f', 'g'].map((c: string) => {
                         return ( // COLUMNS
@@ -149,6 +179,12 @@ class PureGame extends React.Component<IGameProps> {
                                 //         { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
                                 //         { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
                                 if (this.props.column[c].length >= 6 || this.props.connect4 > 0) {
+                                    if (this.props.connect4 > 0) {
+                                        const turn = this.props.rTurn === false ? 'Red' : 'Blue'
+                                        return alert(`${turn} wins!`);
+                                    } else if (this.props.turnNumber > 42) {
+                                        return alert(`Tie!`);
+                                    }
                                     return;
                                 } else {
                                     this.socket.emit('add-token', c);
@@ -186,7 +222,7 @@ class PureGame extends React.Component<IGameProps> {
                         )
                     })}
                 </View>
-                <View style={styles.letters}>
+                {/* <View style={styles.letters}>
                     <Text style={styles.welcome}>{this.props.column.a}</Text>
                     <Text style={styles.welcome}>{this.props.column.b}</Text>
                     <Text style={styles.welcome}>{this.props.column.c}</Text>
@@ -194,9 +230,9 @@ class PureGame extends React.Component<IGameProps> {
                     <Text style={styles.welcome}>{this.props.column.e}</Text>
                     <Text style={styles.welcome}>{this.props.column.f}</Text>
                     <Text style={styles.welcome}>{this.props.column.g}</Text>
-                </View>
+                </View> */}
                 <View style={styles.buttons}>
-                    <AwesomeButton raiseLevel={5} width={50} onPress={() => {
+                    {/* <AwesomeButton raiseLevel={5} width={50} onPress={() => {
                         // const col = 'a'
                         // const token =
                         //     this.props.rTurn ?
@@ -250,8 +286,8 @@ class PureGame extends React.Component<IGameProps> {
                         <Text>
                             G
                     </Text>
-                    </AwesomeButton>
-                    <AwesomeButton raiseLevel={5} width={50} onPress={() => {
+                    </AwesomeButton> */}
+                    <AwesomeButton raiseLevel={5} width={300} onPress={() => {
                         const colOrder = 'abcdefg'
                         const col = colOrder[Math.floor(Math.random() * 7)]
                         const token =
@@ -259,25 +295,27 @@ class PureGame extends React.Component<IGameProps> {
                                 { id: this.props.turnNumber, type: 'R', col: col, row: this.props.column[col].length } :
                                 { id: this.props.turnNumber, type: 'B', col: col, row: this.props.column[col].length };
                         if (this.props.column[col].length >= 6 || this.props.connect4 > 0) {
+                            if (this.props.connect4 > 0) {
+                                const turn = this.props.rTurn === false ? 'Red' : 'Blue'
+                                return alert(`${turn} wins!`);
+                            } else if (this.props.turnNumber > 42) {
+                                return alert(`Tie!`);
+                            }
                             return;
                         } else {
-                            this.props.addToken(token)
+                            this.socket.emit('add-token', col);
                         }
                     }}>
-                        <Text>
-                            R
-                    </Text>
+                        <Text style={{ color: 'white', fontSize: 24, fontWeight:"700"  }}>Random</Text>
                     </AwesomeButton>
-                    <AwesomeButton raiseLevel={5} width={50} onPress={() => {
-                        this.socket.emit('add-token', 'g');
-
-                    }}>
-                        <Text>
-                            H
-                    </Text>
+                    <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
+                        screen: 'MenuScreen',
+                        title: 'Menu',
+                    })}>
+                        <Text style={{ color: 'white', fontSize: 24, fontWeight:"700" }}>Menu</Text>
                     </AwesomeButton>
                 </View>
-                <Text>rTurn: {JSON.stringify(this.props.rTurn)}, boardState.length: {JSON.stringify(this.props.boardState.length)}, connect4:{this.props.connect4}</Text>
+                {/* <Text>rTurn: {JSON.stringify(this.props.rTurn)}, boardState.length: {JSON.stringify(this.props.boardState.length)}, connect4:{this.props.connect4}</Text> */}
             </View>
         );
     }
@@ -331,6 +369,38 @@ const styles = StyleSheet.create({
         // backgroundColor: '#F5FCFF',
         // backgroundColor: 'blue',
     },
+    label: {
+        // flex: 1,
+        height: 50,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    labelItem1: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginLeft: 10,
+    },
+    labelItem2: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+    labelText: {
+        fontSize: 24,
+        fontWeight: '300',
+        marginLeft: 10,
+        marginRight: 10,
+    },
+    labelTextBold: {
+        fontSize: 24,
+        fontWeight: '700',
+        marginLeft: 10,
+        marginRight: 10,
+    },
     letters: {
         flex: 1,
         flexDirection: 'row',
@@ -341,11 +411,11 @@ const styles = StyleSheet.create({
     },
     buttons: {
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-around',
         alignItems: 'center',
         // backgroundColor: '#F5FCFF',
-        backgroundColor: 'purple',
+        backgroundColor: 'white',
     },
     board: {
         // flex: 3,

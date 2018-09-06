@@ -8,6 +8,10 @@ interface IMenuProps {
 }
 
 export default class Menu extends React.Component<IMenuProps> {
+    static navigatorStyle = {
+        tabBarHidden: true,
+    };
+
     render() {
         return (
             <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -15,73 +19,79 @@ export default class Menu extends React.Component<IMenuProps> {
                     screen: 'ActiveGamesScreen',
                     title: 'Observe Active Games',
                 })}>
-                    <Text style={{ color: 'white', fontSize: 24 }}>Observe Games</Text>
+                    <Text style={{ color: 'white', fontSize: 24, fontWeight:"700"  }}>Observe Games</Text>
                 </AwesomeButton>
                 <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                     screen: 'ChallengePlayersScreen',
                     title: 'Challenge Players',
                 })}>
-                    <Text style={{ color: 'white', fontSize: 24 }}>Challenge Players</Text>
+                    <Text style={{ color: 'white', fontSize: 24, fontWeight:"700" }}>Challenge Players</Text>
                 </AwesomeButton>
                 <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                     screen: 'GameScreen',
                     title: 'Play vs AI',
                 })}>
-                    <Text style={{ color: 'white', fontSize: 24 }}>Play vs AI</Text>
+                    <Text style={{ color: 'white', fontSize: 24, fontWeight:"700" }}>Play vs AI</Text>
                 </AwesomeButton>
                 <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                     screen: 'GameScreen',
                     title: 'Play vs AI Zero',
                 })}>
-                    <Text style={{ color: 'white', fontSize: 24 }}>Play vs AI Zero</Text>
+                    <Text style={{ color: 'white', fontSize: 24, fontWeight:"700" }}>Play vs AI Zero</Text>
                 </AwesomeButton>
                 <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                     screen: 'ScoreboardScreen',
                     title: 'Scoreboard',
                 })}>
-                    <Text style={{ color: 'white', fontSize: 24 }}>Scoreboard</Text>
+                    <Text style={{ color: 'white', fontSize: 24, fontWeight:"700" }}>Scoreboard</Text>
+                </AwesomeButton>
+                <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
+                    screen: 'AppScreen',
+                    title: 'Home Page',
+                })}>
+                    <Text style={{ color: 'white', fontSize: 24, fontWeight:"700" }}>Logout</Text>
                 </AwesomeButton>
                 {/* <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                     screen: 'ScoreboardScreen',
                     title: 'Scoreboard',
                 })}>
-                    <Text style={{ color: 'white', fontSize: 24 }}>Scoreboard</Text>
+                    <Text style={{ color: 'white', fontSize: 24, fontWeight:"700" }}>Scoreboard</Text>
                 </AwesomeButton>
                 <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                     screen: 'ScoreboardScreen',
                     title: 'Scoreboard',
                 })}>
-                    <Text style={{ color: 'white', fontSize: 24 }}>Scoreboard</Text>
+                    <Text style={{ color: 'white', fontSize: 24, fontWeight:"700" }}>Scoreboard</Text>
                 </AwesomeButton>
                 <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                     screen: 'ScoreboardScreen',
                     title: 'Scoreboard',
                 })}>
-                    <Text style={{ color: 'white', fontSize: 24 }}>Scoreboard</Text>
+                    <Text style={{ color: 'white', fontSize: 24, fontWeight:"700" }}>Scoreboard</Text>
                 </AwesomeButton>
                 <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                     screen: 'ScoreboardScreen',
                     title: 'Scoreboard',
                 })}>
-                    <Text style={{ color: 'white', fontSize: 24 }}>Scoreboard</Text>
+                    <Text style={{ color: 'white', fontSize: 24, fontWeight:"700" }}>Scoreboard</Text>
                 </AwesomeButton>
                 <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                     screen: 'ScoreboardScreen',
                     title: 'Scoreboard',
                 })}>
-                    <Text style={{ color: 'white', fontSize: 24 }}>Scoreboard</Text>
+                    <Text style={{ color: 'white', fontSize: 24, fontWeight:"700" }}>Scoreboard</Text>
                 </AwesomeButton>
                 <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                     screen: 'ScoreboardScreen',
                     title: 'Scoreboard',
                 })}>
-                    <Text style={{ color: 'white', fontSize: 24 }}>Scoreboard</Text>
+                    <Text style={{ color: 'white', fontSize: 24, fontWeight:"700" }}>Scoreboard</Text>
                 </AwesomeButton>
                 <AwesomeButton raiseLevel={5} width={300} onPress={() => this.props.navigator.resetTo({
                     screen: 'ScoreboardScreen',
                     title: 'Scoreboard',
                 })}>
-                    <Text style={{ color: 'white', fontSize: 24 }}>Scoreboard</Text>
+                    <Text style={{ color: 'white', fontSize: 24, fontWeight:"700" }}>Scoreboard</Text>
                 </AwesomeButton> */}
             </ScrollView>
         );
